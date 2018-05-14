@@ -7,9 +7,9 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=nextcloud
-      - POSTGRES_USER=nextcloud
-      - POSTGRES_PASSWORD=nextcloud
+      - POSTGRES_DB=lawless
+      - POSTGRES_USER=lawless
+      - POSTGRES_PASSWORD=lawless
 
   app:
     image: nextcloud
@@ -20,9 +20,9 @@ services:
       - nextcloud:/var/www/html
     environment:
       - POSTGRES_HOST=db
-      - POSTGRES_DB=nextcloud
-      - POSTGRES_USER=nextcloud
-      - POSTGRES_PASSWORD=nextcloud
+      - POSTGRES_DB=lawless
+      - POSTGRES_USER=lawless
+      - POSTGRES_PASSWORD=lawless
     depends_on:
       - db
 
@@ -30,11 +30,11 @@ services:
     image: nextcloud
     restart: always
     volumes:
-      - nextcloud:/var/www/html
+      - lawless:/var/www/html
     entrypoint: /cron.sh
     depends_on:
       - db
 
 volumes:
   db:
-  nextcloud:
+  lawless:

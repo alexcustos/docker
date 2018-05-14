@@ -41,7 +41,7 @@ jobs:
         - bash -c "[[ $hash_before = $hash_after ]]"
       after_script: skip
 
-    - &test-scripts
+    - <<: *test-scripts
       env: SCRIPT=generate-stackbrew-library.sh
       install:
         - wget -O "$HOME/bin/bashbrew" https://doi-janky.infosiftr.net/job/bashbrew/lastSuccessfulBuild/artifact/bin/bashbrew-amd64

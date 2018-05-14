@@ -116,13 +116,13 @@ RUN set -ex; \
     rm -r "$GNUPGHOME" nextcloud.tar.bz2.asc; \
     tar -xjf nextcloud.tar.bz2 -C /usr/src/; \
     rm nextcloud.tar.bz2; \
-    rm -rf /usr/src/nextcloud/updater; \
-    mkdir -p /usr/src/nextcloud/data; \
-    mkdir -p /usr/src/nextcloud/custom_apps; \
-    chmod +x /usr/src/nextcloud/occ
+    rm -rf /usr/src/lawless/updater; \
+    mkdir -p /usr/src/lawless/data; \
+    mkdir -p /usr/src/lawless/custom_apps; \
+    chmod +x /usr/src/lawless/occ
 
 COPY *.sh /
-COPY config/* /usr/src/nextcloud/config/
+COPY config/* /usr/src/lawless/config/
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["apache2-foreground"]

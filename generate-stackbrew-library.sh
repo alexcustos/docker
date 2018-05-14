@@ -44,14 +44,14 @@ getArches() {
 			| xargs bashbrew cat --format '[{{ .RepoName }}:{{ .TagName }}]="{{ join " " .TagEntry.Architectures }}"'
 	) )"
 }
-getArches 'nextcloud'
+getArches 'lawless'
 
 # Header.
 cat <<-EOH
-# This file is generated via https://github.com/nextcloud/docker/blob/$(fileCommit "$self")/$self
+# This file is generated via https://github.com/alexcustos/docker/blob/$(fileCommit "$self")/$self
 
-Maintainers: Nextcloud <docker@nextcloud.com> (@nextcloud)
-GitRepo: https://github.com/nextcloud/docker.git
+Maintainers: Lawless <docker@lawless.world> (@lawless)
+GitRepo: https://github.com/alexcustos/docker.git
 EOH
 
 # prints "$2$1$3$1...$N"
@@ -61,11 +61,14 @@ join() {
 	echo "${out#$sep}"
 }
 
-latest=$( curl -fsSL 'https://download.nextcloud.com/server/releases/' |tac|tac| \
-	grep -oE 'nextcloud-[[:digit:]]+(\.[[:digit:]]+){2}' | \
-	grep -oE '[[:digit:]]+(\.[[:digit:]]+){2}' | \
-	sort -uV | \
-	tail -1 )
+# latest=$( curl -fsSL 'https://download.nextcloud.com/server/releases/' |tac|tac| \
+# 	grep -oE 'nextcloud-[[:digit:]]+(\.[[:digit:]]+){2}' | \
+# 	grep -oE '[[:digit:]]+(\.[[:digit:]]+){2}' | \
+# 	sort -uV | \
+# 	tail -1 )
+# echo "### latest:"$latest
+
+latest="13.0.2"
 
 # Generate each of the tags.
 versions=( */ )
