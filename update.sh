@@ -109,26 +109,6 @@ for version in "${versions[@]}"; do
 	fi
 done
 
-fullversions_rc=( $( curl -fsSL 'https://download.nextcloud.com/server/prereleases/' |tac|tac| \
-	grep -oE 'nextcloud-[[:digit:]]+(\.[[:digit:]]+){2}RC[[:digit:]]+' | \
-	grep -oE '[[:digit:]]+(\.[[:digit:]]+){2}RC[[:digit:]]+' | \
-	sort -urV ) )
-versions_rc=( $( printf '%s\n' "${fullversions_rc[@]}" | cut -d. -f1-2 | sort -urV ) )
-for version in "${versions_rc[@]}"; do
-	fullversion="$( printf '%s\n' "${fullversions_rc[@]}" | grep -E "^$version" | head -1 )"
-
-	if version_greater_or_equal "$version" "$min_version"; then
-
-		if ! check_released "$fullversion"; then
-
-			for variant in "${variants[@]}"; do
-			
-				create_variant "$version-rc" "https:\/\/download.nextcloud.com\/server\/prereleases"
-			done
-		fi
-	fi
-done
-
 # replace the fist '-' with ' '
 travisEnv="$(echo "$travisEnv" | sed '0,/-/{s/-/ /}')"
 

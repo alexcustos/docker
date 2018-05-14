@@ -67,12 +67,6 @@ latest=$( curl -fsSL 'https://download.nextcloud.com/server/releases/' |tac|tac|
 	sort -uV | \
 	tail -1 )
 
-latest_rc=$( curl -fsSL 'https://download.nextcloud.com/server/prereleases/' |tac|tac| \
-	grep -oE 'nextcloud-[[:digit:]]+(\.[[:digit:]]+){2}RC[[:digit:]]+' | \
-	grep -oE '[[:digit:]]+(\.[[:digit:]]+){2}RC[[:digit:]]+' | \
-	sort -uV | \
-	tail -1 )
-
 # Generate each of the tags.
 versions=( */ )
 versions=( "${versions[@]%/}" )
