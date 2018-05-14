@@ -37,6 +37,7 @@ jobs:
       script:
         - hash_before=$(git write-tree)
         - ./update.sh
+        - echo $hash_before
         - bash -c "[[ $hash_before = $(git add -A && git write-tree) ]]"
       after_script: skip
 
