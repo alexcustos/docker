@@ -91,9 +91,6 @@ for version in "${versions[@]}"; do
 		if [ "$fullversion_with_extension" = "$latest" ]; then
 			versionAliases+=( "latest" )
 		fi
-		if [ "$fullversion_with_extension" = "$latest_rc" ]; then
-			versionAliases+=( "rc" )
-		fi
 
 		for channel in "${!release_channel[@]}"; do
 			if [ "$fullversion_with_extension" = "${release_channel[$channel]}" ]; then
