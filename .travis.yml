@@ -26,7 +26,7 @@ after_script:
 
 jobs:
   include:
-    - test-scripts
+      - <<: *test-scripts
       stage: test scripts
       env: SCRIPT=update.sh
       sudo: false
