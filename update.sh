@@ -85,7 +85,7 @@ function create_variant() {
 		rm "$dir/config/apache-pretty-urls.config.php"
 	fi
 
-	for arch in i386 amd64; do
+	for arch in amd64; do
 		travisEnv='\n    - env: VERSION='"$1"' VARIANT='"$variant"' ARCH='"$arch$travisEnv"
 	done
 }
