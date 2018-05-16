@@ -3,7 +3,7 @@ version: '3.2'
 services:
   db:
     image: postgres
-    restart: always
+    restart: unless-stopped
     volumes:
       - db:/var/lib/postgresql/data
     environment:
@@ -12,12 +12,12 @@ services:
       - POSTGRES_PASSWORD=lawless
 
   app:
-    image: nextcloud
-    restart: always
+    image: lawless
+    restart: unless-stopped
     ports:
       - 8080:80
     volumes:
-      - nextcloud:/var/www/html
+      - lawless-www:/var/www/html
     environment:
       - POSTGRES_HOST=db
       - POSTGRES_DB=lawless
@@ -27,14 +27,14 @@ services:
       - db
 
   cron:
-    image: nextcloud
-    restart: always
+    image: lawless
+    restart: unless-stopped
     volumes:
-      - lawless:/var/www/html
+      - lawless-www:/var/www/html
     entrypoint: /cron.sh
     depends_on:
       - db
 
 volumes:
   db:
-  lawless:
+  lawless-www:

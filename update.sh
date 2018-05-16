@@ -60,11 +60,14 @@ function create_variant() {
 	echo "updating $fullversion [$1] $variant"
 
 	# Replace the variables.
+    nextcloud_base="https:\/\/download.nextcloud.com\/server\/releases"
+    lawless_core="https:\/\/download.lawless.cloud\/core\/releases"
 	sed -ri -e '
 		s/%%PHP_VERSION%%/'"${php_version[$version]-${php_version[default]}}"'/g;
 		s/%%VARIANT%%/'"$variant"'/g;
 		s/%%VERSION%%/'"$fullversion"'/g;
-		s/%%BASE_DOWNLOAD_URL%%/'"$2"'/g;
+		s/%%BASE_DOWNLOAD_URL%%/'"$nextcloud_base"'/g;
+		s/%%CORE_DOWNLOAD_URL%%/'"$lawless_core"'/g;
 		s/%%CMD%%/'"${cmd[$variant]}"'/g;
 		s|%%VARIANT_EXTRAS%%|'"${extras[$variant]}"'|g;
 		s/%%APCU_VERSION%%/'"${pecl_versions[APCu]}"'/g;
@@ -104,7 +107,7 @@ for version in "${versions[@]}"; do
 
 		for variant in "${variants[@]}"; do
 			
-			create_variant "$version" "https:\/\/download.nextcloud.com\/server\/releases"
+			create_variant "$version"
 		done
 	fi
 done

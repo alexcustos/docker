@@ -25,7 +25,7 @@ if [ -f /var/www/html/version.php ]; then
     installed_version="$(php -r 'require "/var/www/html/version.php"; echo implode(".", $OC_Version);')"
 fi
 # shellcheck disable=SC2016
-image_version="$(php -r 'require "/usr/src/nextcloud/version.php"; echo implode(".", $OC_Version);')"
+image_version="$(php -r 'require "/usr/src/lawless/version.php"; echo implode(".", $OC_Version);')"
 
 if version_greater "$installed_version" "$image_version"; then
     echo "Can't start Nextcloud because the version of the data ($installed_version) is higher than the docker image version ($image_version) and downgrading is not supported. Are you sure you have pulled the newest image version?"
@@ -41,11 +41,11 @@ if version_greater "$image_version" "$installed_version"; then
     else
       rsync_options="-rlD"
     fi
-    rsync $rsync_options --delete --exclude /config/ --exclude /data/ --exclude /custom_apps/ --exclude /themes/ /usr/src/nextcloud/ /var/www/html/
+    rsync $rsync_options --delete --exclude /config/ --exclude /data/ --exclude /custom_apps/ --exclude /themes/ /usr/src/lawless/ /var/www/html/
 
     for dir in config data custom_apps themes; do
         if [ ! -d "/var/www/html/$dir" ] || directory_empty "/var/www/html/$dir"; then
-            rsync $rsync_options --include "/$dir/" --exclude '/*' /usr/src/nextcloud/ /var/www/html/
+            rsync $rsync_options --include "/$dir/" --exclude '/*' /usr/src/lawless/ /var/www/html/
         fi
     done
 
