@@ -48,10 +48,10 @@ getArches 'lawless'
 
 # Header.
 cat <<-EOH
-# This file is generated via https://github.com/alexcustos/docker/blob/$(fileCommit "$self")/$self
+# This file is generated via https://github.com/alexcustos/nextcloud-docker/blob/$(fileCommit "$self")/$self
 
 Maintainers: Lawless <docker@lawless.world> (@lawless)
-GitRepo: https://github.com/alexcustos/docker.git
+GitRepo: https://github.com/alexcustos/nextcloud-docker.git
 EOH
 
 # prints "$2$1$3$1...$N"
@@ -61,14 +61,11 @@ join() {
 	echo "${out#$sep}"
 }
 
-# latest=$( curl -fsSL 'https://download.nextcloud.com/server/releases/' |tac|tac| \
-# 	grep -oE 'nextcloud-[[:digit:]]+(\.[[:digit:]]+){2}' | \
-# 	grep -oE '[[:digit:]]+(\.[[:digit:]]+){2}' | \
-# 	sort -uV | \
-# 	tail -1 )
-# echo "### latest:"$latest
-
-latest="13.0.2"
+latest=$( curl -fsSL 'https://download.lawless.cloud/server/releases/' |tac|tac| \
+	grep -oE 'lawless-[[:digit:]]+(\.[[:digit:]]+){2}' | \
+	grep -oE '[[:digit:]]+(\.[[:digit:]]+){2}' | \
+	sort -uV | \
+	tail -1 )
 
 # Generate each of the tags.
 versions=( */ )
@@ -80,7 +77,7 @@ for version in "${versions[@]}"; do
 	done) )
 	for variant in "${variants[@]}"; do
 		commit="$(dockerfileCommit "$version/$variant")"
-		fullversion_with_extension="$( awk '$1 == "ENV" && $2 == "NEXTCLOUD_VERSION" { print $3; exit }' "$version/$variant/Dockerfile" )"
+		fullversion_with_extension="$( awk '$1 == "ENV" && $2 == "LAWLESS_VERSION" { print $3; exit }' "$version/$variant/Dockerfile" )"
 		fullversion="$( echo "$fullversion_with_extension" | grep -oE '[[:digit:]]+(\.[[:digit:]]+){2}')"
 
 		versionAliases=( )
