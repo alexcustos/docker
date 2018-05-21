@@ -46,6 +46,7 @@ function check_released() {
 }
 
 travisEnv=
+lawless_base="https://download.lawless.cloud/server/releases"
 
 function create_variant() {
 	dir="$1/$variant"
@@ -60,14 +61,11 @@ function create_variant() {
 	echo "updating $fullversion [$1] $variant"
 
 	# Replace the variables.
-    nextcloud_base="https:\/\/download.nextcloud.com\/server\/releases"
-    lawless_core="https:\/\/download.lawless.cloud\/core\/releases"
 	sed -ri -e '
 		s/%%PHP_VERSION%%/'"${php_version[$version]-${php_version[default]}}"'/g;
 		s/%%VARIANT%%/'"$variant"'/g;
 		s/%%VERSION%%/'"$fullversion"'/g;
-		s/%%BASE_DOWNLOAD_URL%%/'"$nextcloud_base"'/g;
-		s/%%CORE_DOWNLOAD_URL%%/'"$lawless_core"'/g;
+		s~%%BASE_DOWNLOAD_URL%%~'"$lawless_base"'~g;
 		s/%%CMD%%/'"${cmd[$variant]}"'/g;
 		s|%%VARIANT_EXTRAS%%|'"${extras[$variant]}"'|g;
 		s/%%APCU_VERSION%%/'"${pecl_versions[APCu]}"'/g;
@@ -95,8 +93,8 @@ function create_variant() {
 
 find . -maxdepth 1 -type d -regextype sed -regex '\./[[:digit:]]\+\.[[:digit:]]\+\(-rc\)\?' -exec rm -r '{}' \;
 
-fullversions=( $( curl -fsSL 'https://download.nextcloud.com/server/releases/' |tac|tac| \
-	grep -oE 'nextcloud-[[:digit:]]+(\.[[:digit:]]+){2}' | \
+fullversions=( $( curl -fsSL "$lawless_base" |tac|tac| \
+	grep -oE 'lawless-[[:digit:]]+(\.[[:digit:]]+){2}' | \
 	grep -oE '[[:digit:]]+(\.[[:digit:]]+){2}' | \
 	sort -urV ) )
 versions=( $( printf '%s\n' "${fullversions[@]}" | cut -d. -f1-2 | sort -urV ) )
@@ -106,7 +104,7 @@ for version in "${versions[@]}"; do
 	if version_greater_or_equal "$version" "$min_version"; then
 
 		for variant in "${variants[@]}"; do
-			
+
 			create_variant "$version"
 		done
 	fi

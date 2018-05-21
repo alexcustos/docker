@@ -16,7 +16,7 @@ RUN set -ex; \
     echo '*/15 * * * * php -f /var/www/html/cron.php' > /var/spool/cron/crontabs/www-data
 
 # install the PHP extensions we need
-# see https://docs.nextcloud.com/server/12/admin_manual/installation/source_installation.html
+# see https://docs.nextcloud.com/server/13/admin_manual/installation/source_installation.html
 RUN set -ex; \
     \
     savedAptMark="$(apt-mark showmanual)"; \
@@ -76,7 +76,7 @@ RUN set -ex; \
     rm -rf /var/lib/apt/lists/*
 
 # set recommended PHP.ini settings
-# see https://docs.nextcloud.com/server/12/admin_manual/configuration_server/server_tuning.html#enable-php-opcache
+# see https://docs.nextcloud.com/server/13/admin_manual/configuration_server/server_tuning.html#enable-php-opcache
 RUN { \
         echo 'opcache.enable=1'; \
         echo 'opcache.enable_cli=1'; \
@@ -102,24 +102,13 @@ RUN a2enmod rewrite remoteip ;\
     } > /etc/apache2/conf-available/remoteip.conf;\
     a2enconf remoteip
 
-ENV NEXTCLOUD_VERSION 13.0.2
+ENV LAWLESS_VERSION 13.0.2
 
 RUN set -ex; \
     curl -fsSL -o lawless.tar.bz2 \
-        "https://download.lawless.cloud/core/releases/lawless-core-${NEXTCLOUD_VERSION}.tar.gz"; \
-    tar -zxf lawless.tar.bz2 -C /usr/src/ --transform 's/^lawless-core/lawless/'; \
+        "https://download.lawless.cloud/server/releases/lawless-${LAWLESS_VERSION}.tar.bz2"; \
+    tar -xjf lawless.tar.bz2 -C /usr/src/; \
     rm lawless.tar.bz2; \
-    curl -fsSL -o nextcloud.tar.bz2 \
-        "https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2"; \
-    curl -fsSL -o nextcloud.tar.bz2.asc \
-        "https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2.asc"; \
-    export GNUPGHOME="$(mktemp -d)"; \
-# gpg key from https://nextcloud.com/nextcloud.asc
-    gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 28806A878AE423A28372792ED75899B9A724937A; \
-    gpg --batch --verify nextcloud.tar.bz2.asc nextcloud.tar.bz2; \
-    rm -r "$GNUPGHOME" nextcloud.tar.bz2.asc; \
-    tar -xjf nextcloud.tar.bz2 -C /usr/src/ --transform 's/^nextcloud/lawless/' 'nextcloud/apps'; \
-    rm nextcloud.tar.bz2; \
     mkdir -p /usr/src/lawless/data; \
     mkdir -p /usr/src/lawless/custom_apps; \
     chmod +x /usr/src/lawless/occ

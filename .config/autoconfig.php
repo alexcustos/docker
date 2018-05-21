@@ -23,12 +23,12 @@ if (getenv('SQLITE_DATABASE')) {
 }
 
 if ($autoconfig_enabled) {
-    $AUTOCONFIG["dbtableprefix"] = getenv('NEXTCLOUD_TABLE_PREFIX') ?: "";
+    $AUTOCONFIG["dbtableprefix"] = getenv('LAWLESS_TABLE_PREFIX') ?: "";
 
-    $AUTOCONFIG["directory"] = getenv('NEXTCLOUD_DATA_DIR') ?: "/var/www/html/data";
+    $AUTOCONFIG["directory"] = getenv('LAWLESS_DATA_DIR') ?: "/var/www/html/data";
 
-    if (getenv('NEXTCLOUD_ADMIN_USER') && getenv('NEXTCLOUD_ADMIN_PASSWORD')) {
-        $AUTOCONFIG["adminlogin"] = getenv('NEXTCLOUD_ADMIN_USER');
-        $AUTOCONFIG["adminpass"] = getenv('NEXTCLOUD_ADMIN_PASSWORD');
+    if (getenv('LAWLESS_ADMIN_USER') && getenv('LAWLESS_ADMIN_PASSWORD')) {
+        $AUTOCONFIG["adminlogin"] = getenv('LAWLESS_ADMIN_USER');
+        $AUTOCONFIG["adminpass"] = getenv('LAWLESS_ADMIN_PASSWORD');
     }
 }

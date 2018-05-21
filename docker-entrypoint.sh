@@ -28,7 +28,7 @@ fi
 image_version="$(php -r 'require "/usr/src/lawless/version.php"; echo implode(".", $OC_Version);')"
 
 if version_greater "$installed_version" "$image_version"; then
-    echo "Can't start Nextcloud because the version of the data ($installed_version) is higher than the docker image version ($image_version) and downgrading is not supported. Are you sure you have pulled the newest image version?"
+    echo "Can't start Lawless because the version of the data ($installed_version) is higher than the docker image version ($image_version) and downgrading is not supported. Are you sure you have pulled the newest image version?"
     exit 1
 fi
 
