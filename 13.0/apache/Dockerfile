@@ -1,8 +1,14 @@
 # DO NOT EDIT: created by update.sh from Dockerfile-debian.template
 FROM php:7.1-apache
 
+ARG HUID=33
+ARG HGID=33
+
 # entrypoint.sh and cron.sh dependencies
 RUN set -ex; \
+    \
+    usermod --uid $HUID www-data; \
+    groupmod --gid $HGID www-data; \
     \
     apt-get update; \
     apt-get install -y --no-install-recommends \
